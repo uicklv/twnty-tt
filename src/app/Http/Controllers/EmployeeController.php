@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
+    private static int $elemOnPage = 25;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $employees = Employee::paginate(25);
+        $employees = Employee::paginate(self::$elemOnPage);
 
         return EmployeeResource::collection($employees);
     }
@@ -61,13 +64,37 @@ class EmployeeController extends Controller
 
     public function highestSalary()
     {
+        //get employees with highest salary for each country
         $employees = Employee::select('employees.*')
             ->join(DB::raw('(SELECT MAX(salary) AS max_salary, country_id FROM employees GROUP BY country_id) AS max_salaries'), function ($join) {
                 $join->on('employees.salary', '=', 'max_salaries.max_salary')
                     ->on('employees.country_id', '=', 'max_salaries.country_id');
-            })
-            ->get();
+            })->get();
 
         return EmployeeResource::collection($employees);
     }
+
+    public function getByPosition(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'position' => 'required|exists:positions,name',
+        ]);
+
+        // return validation error
+        if($validate->fails()){
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'data' => $validate->errors(),
+            ], 422);
+        }
+
+        //get position by name
+        $position = Position::where('name', '=', $request->get('position'))->first();
+
+        $employees = $position->employees()->paginate(self::$elemOnPage);
+
+        return EmployeeResource::collection($employees);
+    }
+
 }
