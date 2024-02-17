@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::resource('employees', EmployeeController::class)->except(['create', 'edit']);
 
+    Route::get('employees-highest-salary',[EmployeeController::class, 'highestSalary']);
+
     Route::post('logout',[AuthController::class, 'logout']);
 });
 

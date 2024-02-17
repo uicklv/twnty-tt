@@ -6,6 +6,7 @@ use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -56,5 +57,17 @@ class EmployeeController extends Controller
         $employee->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function highestSalary()
+    {
+        $employees = Employee::select('employees.*')
+            ->join(DB::raw('(SELECT MAX(salary) AS max_salary, country_id FROM employees GROUP BY country_id) AS max_salaries'), function ($join) {
+                $join->on('employees.salary', '=', 'max_salaries.max_salary')
+                    ->on('employees.country_id', '=', 'max_salaries.country_id');
+            })
+            ->get();
+
+        return EmployeeResource::collection($employees);
     }
 }
