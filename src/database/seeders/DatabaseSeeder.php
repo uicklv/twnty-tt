@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder
              'email' => 'test@example.com',
              'password' => Hash::make('password')
          ]);
+
+        \App\Models\Country::factory(5)->create();
+
+        \App\Models\Employee::factory(5)->create();
     }
 }
