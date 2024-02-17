@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
          ]);
 
         \App\Models\Country::factory(5)->create();
+        \App\Models\Position::factory(5)->create();
 
-        \App\Models\Employee::factory(5)->create();
+        \App\Models\Employee::factory(50)->create();
     }
 }

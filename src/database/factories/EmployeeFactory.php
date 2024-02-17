@@ -24,7 +24,7 @@ class EmployeeFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'salary' => '$' . fake()->numberBetween(1000, 5000),
             'country_id' => Country::all()->random()->id,
-            'position' => fake()->jobTitle(),
+            'position' => Country::all()->random()->name,
             'age' => fake()->numberBetween(18, 65),
         ];
     }

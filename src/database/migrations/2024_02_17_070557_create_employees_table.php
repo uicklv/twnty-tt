@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('country_id')->constrained();
+            $table->foreignId('position_id')->constrained();
             $table->string('name', 150);
             $table->integer('age')->unsigned();
             $table->string('email', 250)->unique();
-            $table->string('salary', 250)->nullable();
-            $table->string('position', 350);
+            $table->float('salary')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

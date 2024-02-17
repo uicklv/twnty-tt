@@ -25,11 +25,11 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'country_id' => 'required|exists:countries,id',
+            'position_id' => 'required|exists:positions,id',
             'name' => 'required|string|max:150',
             'age' => 'required|integer|min:18|max:120',
             'email' => 'required|email|max:250|string|unique:employees',
-            'salary' => 'nullable|max:250|string',
-            'position' => 'required|max:350|string',
+            'salary' => 'required|numeric|between:0,99999999.99',
         ];
     }
 

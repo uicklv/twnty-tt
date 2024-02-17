@@ -17,4 +17,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
 }
