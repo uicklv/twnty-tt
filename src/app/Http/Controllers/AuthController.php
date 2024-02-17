@@ -24,7 +24,7 @@ class AuthController extends Controller
         // return validation error
         if($validate->fails()){
             return response()->json([
-                'status' => 'failed',
+                'success' => false,
                 'message' => 'Validation Error',
                 'data' => $validate->errors(),
             ], 403);
@@ -39,7 +39,7 @@ class AuthController extends Controller
         // check password
         if(!$user || !Hash::check($userPassword, $user->password)) {
             return response()->json([
-                'status' => 'failed',
+                'success' => false,
                 'message' => 'Invalid credentials'
             ], 401);
         }
@@ -49,7 +49,7 @@ class AuthController extends Controller
         $data['user'] = $user;
 
         $response = [
-            'status' => 'success',
+            'success' => true,
             'message' => 'User is logged in successfully.',
             'data' => $data,
         ];
@@ -63,11 +63,11 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        // delete use tokens
+        // delete tokens
         auth()->user()->tokens()->delete();
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'User is logged out successfully'
         ]);
     }

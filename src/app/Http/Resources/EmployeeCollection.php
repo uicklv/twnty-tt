@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -14,6 +15,13 @@ class EmployeeCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection->transform(function (Employee $user) {
+                return new EmployeeResource($user);
+            }),
+            'meta' => [
+                'total' => $this->collection->count(),
+            ],
+        ];
     }
 }

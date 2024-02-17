@@ -10,6 +10,9 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'name', 'country_id', 'age', 'email', 'salary', 'position'
+    ];
     public function country()
     {
         return $this->belongsTo(Country::class);
