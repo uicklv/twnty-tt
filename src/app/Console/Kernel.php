@@ -15,10 +15,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // call job for update weather
-        $schedule->job(new UpdateWeather(env('WEATHER_API_KEY')))->everyMinute();
-
-        // call queue work
-        $schedule->command('queue:work')->everyMinute();
+        $schedule->job(new UpdateWeather(env('WEATHER_API_KEY')))->daily();
+        // need call in terminal php artisan queue:work
     }
 
     /**
