@@ -23,8 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login',[AuthController::class, 'login']);
 
-Route::get('weather-update',[WeatherController::class, 'update']);
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::resource('employees', EmployeeController::class)->except(['create', 'edit']);
