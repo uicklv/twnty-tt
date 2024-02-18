@@ -6,8 +6,11 @@ use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use App\Models\Position;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
@@ -95,6 +98,25 @@ class EmployeeController extends Controller
         $employees = $position->employees()->paginate(self::$elemOnPage);
 
         return EmployeeResource::collection($employees);
+    }
+
+    public function pdf(Employee $employee)
+    {
+        //todo mb use private disc for files ?
+
+        // load view with employee data
+        $pdf = PDF::loadView('employees.pdf', compact('employee'));
+        $pdf->render();
+        $file = $pdf->output();
+        $fileName = "employees/$employee->id/profile.pdf";
+        // put pdf to storage
+        Storage::disk('public')->put($fileName, $file);
+
+        //return full path for file
+        return response()->json([
+            'success' => true,
+            'data' => Storage::disk('public')->url($fileName)
+        ]);
     }
 
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\WeatherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::post('login',[AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::resource('employees', EmployeeController::class)->except(['create', 'edit']);
+
+    //route for pdf
+    Route::get('employees/{employee}/pdf', [EmployeeController::class, 'pdf']);
 
     Route::get('employees-highest-salary', [EmployeeController::class, 'highestSalary']);
     Route::get('employees-by-position', [EmployeeController::class, 'getByPosition']);
