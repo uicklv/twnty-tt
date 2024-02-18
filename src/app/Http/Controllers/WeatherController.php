@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Classes\OpenWeather;
 use App\Classes\OpenWeatherApi;
+use App\Classes\WeatherService;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 
 class WeatherController extends Controller
 {
     public function update()
     {
+        // init open weather api object
         $httpClient = new Client();
         $api = new OpenWeatherApi(env('WEATHER_API_KEY'), $httpClient);
 
-        $api->getCoords('Lviv');
-
+        // init open weather object
         $weather = new OpenWeather($api);
-        $weather->getDescription();
+
+        // call service and update weather
+        WeatherService::updateWeather($weather);
     }
 }

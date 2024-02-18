@@ -23,4 +23,9 @@ class Country extends Model
     {
         return $this->hasMany(City::class);
     }
+
+    public function weather()
+    {
+        return $this->hasone(Weather::class);
+    }
 }

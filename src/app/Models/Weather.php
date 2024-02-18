@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class City extends Model
+class Weather extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'country_id'
+        'country_id', 'main', 'description'
     ];
     public function country()
     {

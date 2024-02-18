@@ -3,7 +3,6 @@
 namespace App\Classes;
 
 use App\Interfaces\WeatherInterface;
-use Cmfcmf\OpenWeatherMap;
 
 class OpenWeather implements WeatherInterface
 {
@@ -12,12 +11,15 @@ class OpenWeather implements WeatherInterface
     {
         $this->api = $api;
     }
-    public function getDescription(string $city, ?string $country = null): string
+    public function getDescription(string $city, ?string $country = null): array
     {
-        $wheather = $this->api->getWeatherDescription($city, $country);
+        // prepare query. If isset country - add it to query
+        $query = $city . (isset($country) ? ", $country" : "");
 
-        dd($wheather);
+        // get coords for location
+        [$lat, $lon] = $this->api->getCoords($query);
 
-        return '';
+        // return weather description
+        return $this->api->getWeatherDescription($lat, $lon);
     }
 }
