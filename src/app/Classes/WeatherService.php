@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Enums\WeatherDescription;
 use App\Interfaces\WeatherInterface;
+use App\Jobs\UpdateWeather;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Weather;
