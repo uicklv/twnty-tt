@@ -3,7 +3,6 @@
 namespace App\Classes;
 
 use App\Interfaces\WeatherInterface;
-use app\OpenWeatherApi;
 use Cmfcmf\OpenWeatherMap;
 
 class OpenWeather implements WeatherInterface
