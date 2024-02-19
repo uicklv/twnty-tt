@@ -18,4 +18,5 @@
  `php artisan storage:link`
  ## If you get a permission error, run this in a container terminal
  `chown -R www-data:www-data /var/www/`
+ 
   **Everything should work now :smile:**
