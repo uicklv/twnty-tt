@@ -14,5 +14,6 @@
  `php artisan schedule:work`
  ## Run queues
  `php artisan queue:work`
-  
+ ## If you get a permission error, run this in a container terminal
+ `chown -R www-data:www-data /var/www/`
   **Everything should work now :smile:**
