@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class EmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'country_id' => 'required|exists:countries,id',
             'position_id' => 'required|exists:positions,id',
             'name' => 'required|string|max:150',
@@ -31,6 +32,13 @@ class EmployeeRequest extends FormRequest
             'email' => 'required|email|max:250|string|unique:employees',
             'salary' => 'required|numeric|between:0,99999999.99',
         ];
+
+        // for put method change validation rule for email
+        if (request()->isMethod('put')) {
+            $rules['email'] = 'required|email|max:250|string|unique:employees,email,' . $this->employee->id;
+        }
+
+        return $rules;
     }
 
     public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

@@ -18,3 +18,4 @@ RUN pecl install xdebug \
 
 # install default-mysql-client
 RUN apt-get update && apt-get install -y default-mysql-client && rm -rf /var/lib/apt/lists/*
+
